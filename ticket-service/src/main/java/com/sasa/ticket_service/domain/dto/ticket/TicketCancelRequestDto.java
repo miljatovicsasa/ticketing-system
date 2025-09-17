@@ -1,15 +1,10 @@
 package com.sasa.ticket_service.domain.dto.ticket;
 
-public class TicketCancelRequestDto {
+import jakarta.validation.constraints.NotNull;
 
-    private Long ticketId;
+import java.util.UUID;
 
-    public TicketCancelRequestDto() {}
-
-    public TicketCancelRequestDto(Long ticketId) {
-        this.ticketId = ticketId;
-    }
-
-    public Long getTicketId() { return ticketId; }
-    public void setTicketId(Long ticketId) { this.ticketId = ticketId; }
-}
+public record TicketCancelRequestDto (
+        @NotNull(message = "ticketId is required")
+        UUID ticketId
+){}

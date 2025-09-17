@@ -2,6 +2,7 @@ package com.sasa.ticket_service.adapter.output.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tickets", schema = "ticket")
@@ -9,30 +10,28 @@ public class TicketEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false)
-    private Long eventId;
+    private UUID eventId;
 
     @Column(nullable = false)
-    private Long userId;
+    private UUID userId;
 
     @Column(nullable = false)
     private int quantity;
 
     @Column(nullable = false)
-    private String status; // ACTIVE, CANCELED, EXPIRED
+    private String status;
 
     @Column(nullable = false)
     private LocalDateTime purchaseTime;
 
     private LocalDateTime cancelTime;
 
-    // Default constructor za JPA
     public TicketEntity() {}
 
-    // Constructor za kreiranje nove karte
-    public TicketEntity(Long id, Long eventId, Long userId, int quantity, String status) {
+    public TicketEntity(UUID id, UUID eventId, UUID userId, int quantity, String status) {
         this.id = id;
         this.eventId = eventId;
         this.userId = userId;
@@ -42,15 +41,14 @@ public class TicketEntity {
         this.cancelTime = null;
     }
 
-    // Getteri i setteri
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
 
-    public Long getEventId() { return eventId; }
-    public void setEventId(Long eventId) { this.eventId = eventId; }
+    public UUID getEventId() { return eventId; }
+    public void setEventId(UUID eventId) { this.eventId = eventId; }
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public UUID getUserId() { return userId; }
+    public void setUserId(UUID userId) { this.userId = userId; }
 
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
@@ -64,4 +62,3 @@ public class TicketEntity {
     public LocalDateTime getCancelTime() { return cancelTime; }
     public void setCancelTime(LocalDateTime cancelTime) { this.cancelTime = cancelTime; }
 }
-

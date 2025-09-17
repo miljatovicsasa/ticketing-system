@@ -63,7 +63,7 @@ services:
 #      SPRING_DATASOURCE_USERNAME: ${DB_USER}
 #      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
 #      SPRING_KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_CONTAINER_NAME}:${KAFKA_PORT}
-#      SERVER_PORT: ${SERVER_PORT}
+#      EVENT_SERVER_PORT: ${EVENT_SERVER_PORT}
 #    networks: [ ticketing-net ]
 #
 #  ticket-service:
@@ -76,7 +76,7 @@ services:
 #      SPRING_DATASOURCE_USERNAME: ${DB_USER}
 #      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
 #      SPRING_KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_CONTAINER_NAME}:${KAFKA_PORT}
-#      SERVER_PORT: ${SERVER_PORT}
+#      TICKET_SERVER_PORT: ${TICKET_SERVER_PORT}
 #    networks: [ ticketing-net ]
 #
 #  user-service:
@@ -88,7 +88,7 @@ services:
 #      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
 #      SPRING_DATASOURCE_USERNAME: ${DB_USER}
 #      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-#      SERVER_PORT: ${SERVER_PORT}
+#      USER_SERVER_PORT: ${USER_SERVER_PORT}
 #    networks: [ ticketing-net ]
 
 networks:

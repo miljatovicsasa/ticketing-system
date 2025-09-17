@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class TicketService implements PurchaseTicketUseCase, GetAllTicketsUseCase, CancellTicketUseCase {
@@ -27,11 +28,19 @@ public class TicketService implements PurchaseTicketUseCase, GetAllTicketsUseCas
 
     @Override
     public Ticket purchaseTicket(Ticket ticket) {
-        if (!eventServicePort.canPurchase(ticket.getEventId(), ticket.getQuantity())) {
+
+        boolean reserved = eventServicePort.eventCheckAndReserve(ticket.getEventId(), ticket.getQuantity());
+        if (!reserved) {
             throw new RuntimeException("Not enough tickets or exceeds max per purchase");
         }
-        ticket.setUserId(456154L);
-        return ticketRepositoryPort.save(ticket);
+
+        try{
+            ticket.setUserId(UUID.randomUUID());
+            return ticketRepositoryPort.save(ticket);
+        } catch (Exception e) {
+            eventServicePort.rollbackReservation(ticket.getEventId(), ticket.getQuantity());
+            throw e;
+        }
     }
 
     @Override
@@ -40,13 +49,21 @@ public class TicketService implements PurchaseTicketUseCase, GetAllTicketsUseCas
     }
 
     @Override
-    public Ticket cancellTicket(long ticketId) {
-        Ticket ticket = ticketRepositoryPort.findById(ticketId)
-                .orElseThrow(() -> new TicketNotFoundException(ticketId));
+    public Ticket cancellTicket(UUID ticketId) {
+        Ticket ticket = ticketRepositoryPort.findById(ticketId);
 
-        ticket.setStatus(TicketStatus.CANCELED);
-        ticket.setCancelTime(LocalDateTime.now());
+        boolean reserved = eventServicePort.eventCancel(ticket.getEventId(), ticket.getQuantity());
+        if (!reserved) {
+            throw new RuntimeException("Not enough tickets or exceeds max per purchase");
+        }
 
-        return ticketRepositoryPort.save(ticket);
+        try{
+            ticket.setStatus(TicketStatus.CANCELED);
+            ticket.setCancelTime(LocalDateTime.now());
+            return ticketRepositoryPort.save(ticket);
+        } catch (Exception e) {
+            eventServicePort.rollbackCancellation(ticket.getEventId(), ticket.getQuantity());
+            throw e;
+        }
     }
 }

@@ -12,8 +12,8 @@ public class TicketDtoMapper {
     public static Ticket requestToDomain(TicketPurchaseRequestDto dto) {
         return new Ticket(
                 null,
-                dto.getEventId(),
-                dto.getQuantity(),
+                dto.eventId(),
+                dto.quantity(),
                 TicketStatus.ACTIVE,
                 LocalDateTime.now(),
                 null

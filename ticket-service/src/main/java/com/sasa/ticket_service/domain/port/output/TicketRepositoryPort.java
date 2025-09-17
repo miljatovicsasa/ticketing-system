@@ -5,10 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface TicketRepositoryPort {
 
     Page<Ticket> getAllTickets(Pageable pageable);
-    Optional<Ticket> findById(Long id);
+    Ticket findById(UUID id);
     Ticket save(Ticket ticket);
 }

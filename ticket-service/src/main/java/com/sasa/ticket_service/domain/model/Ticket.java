@@ -1,17 +1,18 @@
 package com.sasa.ticket_service.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Ticket {
-    private Long id;
-    private Long eventId;
-    private Long userId;
+    private UUID id;
+    private UUID eventId;
+    private UUID userId;
     private int quantity;
     private TicketStatus status;
     private LocalDateTime purchaseTime;
     private LocalDateTime cancelTime;
 
-    public Ticket(Long id, Long eventId, Long userId, int quantity,
+    public Ticket(UUID id, UUID eventId, UUID userId, int quantity,
                   TicketStatus status, LocalDateTime purchaseTime, LocalDateTime cancelTime) {
         this.id = id;
         this.eventId = eventId;
@@ -22,7 +23,7 @@ public class Ticket {
         this.cancelTime = cancelTime;
     }
 
-    public Ticket(Long id, Long eventId, int quantity,
+    public Ticket(UUID id, UUID eventId, int quantity,
                   TicketStatus status, LocalDateTime purchaseTime, LocalDateTime cancelTime) {
         this.id = id;
         this.eventId = eventId;
@@ -32,27 +33,27 @@ public class Ticket {
         this.cancelTime = cancelTime;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Long getEventId() {
+    public UUID getEventId() {
         return eventId;
     }
 
-    public void setEventId(Long eventId) {
+    public void setEventId(UUID eventId) {
         this.eventId = eventId;
     }
 
-    public Long getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
