@@ -1,0 +1,99 @@
+version: "3.8"
+
+services:
+
+  db:
+    image: postgres:15
+    container_name: interview_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks: [ ticketing-net ]
+
+  kafka:
+    image: ${KAFKA_IMAGE}
+    container_name: ${KAFKA_CONTAINER_NAME}
+    ports:
+      - "${KAFKA_PORT}:${KAFKA_PORT}"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:${KAFKA_PORT},CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_ADVERTISED_HOST}:${KAFKA_PORT}
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: ${KAFKA_CONTROLLER_QUORUM_VOTERS}
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ${KAFKA_VOLUME_PATH}
+    networks: [ ticketing-net ]
+
+  akhq:
+    image: tchiotludo/akhq:latest
+    container_name: akhq
+    ports:
+      - "8086:8080"
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          connections:
+            local:
+              properties:
+                bootstrap.servers: "kafka:9092"
+    depends_on:
+      - kafka
+    networks:
+      - ticketing-net
+
+#  event-service:
+#    build: ./event-service
+#    depends_on: [ db, kafka ]
+#    ports:
+#      - "8081:${SERVER_PORT}"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
+#      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_CONTAINER_NAME}:${KAFKA_PORT}
+#      SERVER_PORT: ${SERVER_PORT}
+#    networks: [ ticketing-net ]
+#
+#  ticket-service:
+#    build: ./ticket-service
+#    depends_on: [ db, kafka ]
+#    ports:
+#      - "8082:${SERVER_PORT}"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
+#      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_CONTAINER_NAME}:${KAFKA_PORT}
+#      SERVER_PORT: ${SERVER_PORT}
+#    networks: [ ticketing-net ]
+#
+#  user-service:
+#    build: ./user-service
+#    depends_on: [ db ]
+#    ports:
+#      - "8083:${SERVER_PORT}"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
+#      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+#      SERVER_PORT: ${SERVER_PORT}
+#    networks: [ ticketing-net ]
+
+networks:
+  ticketing-net:
+    driver: bridge
+
+volumes:
+  db_data:
