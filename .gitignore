@@ -24,6 +24,3 @@ kafka-data/
 postgres-data/
 data/
 volumes/
-
-.env
-*.env
