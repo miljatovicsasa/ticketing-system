@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +34,7 @@ public class EventService implements EventUseCasePort {
     @Transactional
     public void markFinishedEvents() {
         List<Event> ongoingEvents = eventRepositoryPort.findAllOngoingEvents();
-        LocalDateTime now = LocalDateTime.now();
+        OffsetDateTime now = OffsetDateTime.now();
         for (Event event : ongoingEvents) {
             event.checkAndClose(now);
             eventRepositoryPort.saveEvent(event);

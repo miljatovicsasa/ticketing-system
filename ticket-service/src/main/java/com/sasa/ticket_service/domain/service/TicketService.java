@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -26,16 +25,11 @@ public class TicketService implements TicketUseCasePort {
     @Override
     public Ticket purchaseTicket(Ticket ticket) {
 
-        boolean reserved = eventServicePort.eventCheckAndReserve(ticket.getEventId(), ticket.getQuantity());
-        if (!reserved) {
-            throw new RuntimeException("Not enough tickets or exceeds max per purchase");
-        }
-
-        try{
-            ticket.setUserId(UUID.randomUUID());
+        ticket.purchase(eventServicePort);
+        try {
             return ticketRepositoryPort.save(ticket);
         } catch (Exception e) {
-            eventServicePort.rollbackReservation(ticket.getEventId(), ticket.getQuantity());
+            ticket.rollbackPurchase(eventServicePort);
             throw e;
         }
     }
@@ -46,20 +40,14 @@ public class TicketService implements TicketUseCasePort {
     }
 
     @Override
-    public Ticket cancellTicket(UUID ticketId) {
+    public Ticket cancelTicket(UUID ticketId) {
         Ticket ticket = ticketRepositoryPort.findById(ticketId);
 
-        boolean reserved = eventServicePort.eventCancel(ticket.getEventId(), ticket.getQuantity());
-        if (!reserved) {
-            throw new RuntimeException("Not enough tickets or exceeds max per purchase");
-        }
-
-        try{
-            ticket.setStatus(TicketStatus.CANCELED);
-            ticket.setCancelTime(LocalDateTime.now());
+        ticket.cancel(eventServicePort);
+        try {
             return ticketRepositoryPort.save(ticket);
         } catch (Exception e) {
-            eventServicePort.rollbackCancellation(ticket.getEventId(), ticket.getQuantity());
+            ticket.rollbackCancellation(eventServicePort);
             throw e;
         }
     }

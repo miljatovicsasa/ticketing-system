@@ -1,7 +1,10 @@
 package com.sasa.ticket_service.adapter.output.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
@@ -25,9 +28,17 @@ public class TicketEntity {
     private String status;
 
     @Column(nullable = false)
-    private LocalDateTime purchaseTime;
+    private OffsetDateTime purchaseTime;
 
-    private LocalDateTime cancelTime;
+    private OffsetDateTime cancelTime;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private OffsetDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private OffsetDateTime updatedAt;
 
     public TicketEntity() {}
 
@@ -37,7 +48,7 @@ public class TicketEntity {
         this.userId = userId;
         this.quantity = quantity;
         this.status = status;
-        this.purchaseTime = LocalDateTime.now();
+        this.purchaseTime = OffsetDateTime.now();
         this.cancelTime = null;
     }
 
@@ -56,9 +67,9 @@ public class TicketEntity {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public LocalDateTime getPurchaseTime() { return purchaseTime; }
-    public void setPurchaseTime(LocalDateTime purchaseTime) { this.purchaseTime = purchaseTime; }
+    public OffsetDateTime getPurchaseTime() { return purchaseTime; }
+    public void setPurchaseTime(OffsetDateTime purchaseTime) { this.purchaseTime = purchaseTime; }
 
-    public LocalDateTime getCancelTime() { return cancelTime; }
-    public void setCancelTime(LocalDateTime cancelTime) { this.cancelTime = cancelTime; }
+    public OffsetDateTime getCancelTime() { return cancelTime; }
+    public void setCancelTime(OffsetDateTime cancelTime) { this.cancelTime = cancelTime; }
 }

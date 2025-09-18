@@ -35,7 +35,7 @@ public class TicketController {
 
     @PostMapping("/cancel")
     public ResponseEntity<ApiResponseDto<TicketResponseDto>> cancellTicket(@RequestBody @Valid TicketCancelRequestDto ticketCancelRequestDto){
-        Ticket ticket = ticketUseCasePort.cancellTicket(ticketCancelRequestDto.ticketId());
+        Ticket ticket = ticketUseCasePort.cancelTicket(ticketCancelRequestDto.ticketId());
         return ResponseEntity.status(200).body(
                 new ApiResponseDto<>(200, "Ticket cancelled successfully", TicketDtoMapper.DomainToResponseDto(ticket))
         );

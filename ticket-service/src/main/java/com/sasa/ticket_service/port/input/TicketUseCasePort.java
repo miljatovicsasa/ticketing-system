@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 public interface TicketUseCasePort {
-    Ticket cancellTicket(UUID ticketId);
+    Ticket cancelTicket(UUID ticketId);
     Page<Ticket> getAllTickets(Pageable pageable);
     Ticket purchaseTicket(Ticket ticket);
 }

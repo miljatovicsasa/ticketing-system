@@ -2,20 +2,20 @@ package com.sasa.event_service.domain.model;
 
 import com.sasa.event_service.adapter.output.entity.EventEntity;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public class Event {
     private UUID id;
     private String name;
     private String description;
-    private LocalDateTime dateTime;
+    private OffsetDateTime dateTime;
     private int capacity;
     private int remaining;
     private int maxPerPurchase;
     private EventStatus status;
 
-    public Event(UUID id, String name, LocalDateTime dateTime, int capacity, int remaining, int maxPerPurchase, EventStatus status) {
+    public Event(UUID id, String name, OffsetDateTime dateTime, int capacity, int remaining, int maxPerPurchase, EventStatus status) {
         this.id = id;
         this.name = name;
         this.dateTime = dateTime;
@@ -25,7 +25,7 @@ public class Event {
         this.status = status;
     }
 
-    public static Event createNew(String name, LocalDateTime dateTime, int capacity, int maxPerPurchase) {
+    public static Event createNew(String name, OffsetDateTime dateTime, int capacity, int maxPerPurchase) {
         if (dateTime == null) {
             throw new IllegalArgumentException("Event dateTime must not be null");
         }
@@ -59,6 +59,9 @@ public class Event {
     }
 
     public void validatePurchase(int quantity) {
+        if (this.status != EventStatus.ACTIVE) {
+            throw new IllegalStateException("Cannot purchase tickets for event with status: " + this.status);
+        }
         if (quantity > maxPerPurchase) {
             throw new IllegalArgumentException("Cannot purchase more than " + maxPerPurchase + " tickets per request.");
         }
@@ -87,7 +90,7 @@ public class Event {
         purchase(quantity);
     }
 
-    public void checkAndClose(LocalDateTime now) {
+    public void checkAndClose(OffsetDateTime now) {
         if (dateTime.isBefore(now)) {
             this.status = EventStatus.FINISHED;
         }
@@ -139,11 +142,11 @@ public class Event {
         this.capacity = capacity;
     }
 
-    public LocalDateTime getDateTime() {
+    public OffsetDateTime getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(OffsetDateTime dateTime) {
         this.dateTime = dateTime;
     }
 

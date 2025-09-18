@@ -5,7 +5,7 @@ import com.sasa.ticket_service.adapter.input.dto.response.TicketResponseDto;
 import com.sasa.ticket_service.domain.model.Ticket;
 import com.sasa.ticket_service.domain.model.TicketStatus;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class TicketDtoMapper {
 
@@ -15,7 +15,7 @@ public class TicketDtoMapper {
                 dto.eventId(),
                 dto.quantity(),
                 TicketStatus.ACTIVE,
-                LocalDateTime.now(),
+                OffsetDateTime.now(),
                 null
         );
     }

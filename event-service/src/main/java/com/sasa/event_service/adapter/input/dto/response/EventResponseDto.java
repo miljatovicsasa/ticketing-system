@@ -2,13 +2,13 @@ package com.sasa.event_service.adapter.input.dto.response;
 
 import com.sasa.event_service.domain.model.Event;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public record EventResponseDto(
         UUID id,
         String name,
-        LocalDateTime dateTime,
+        OffsetDateTime dateTime,
         int capacity,
         int remaining,
         int maxPerPurchase,

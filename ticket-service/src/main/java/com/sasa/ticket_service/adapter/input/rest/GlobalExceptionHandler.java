@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,6 +24,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ApiResponseDto<>(404, ex.getMessage(), null));
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiResponseDto<String>> handleIllegalStateException(IllegalStateException ex) {
+        return ResponseEntity.badRequest()
+                .body(new ApiResponseDto<>(400, ex.getMessage(), null));
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponseDto<String>> handleValidationException(MethodArgumentNotValidException ex) {
@@ -81,6 +89,12 @@ public class GlobalExceptionHandler {
         String message = "Invalid input data: " + ex.getMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiResponseDto<>(400, message, null));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiResponseDto<String>> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(400)
+                .body(new ApiResponseDto<>(400, ex.getMessage(), null));
     }
 
     @ExceptionHandler(Exception.class)
