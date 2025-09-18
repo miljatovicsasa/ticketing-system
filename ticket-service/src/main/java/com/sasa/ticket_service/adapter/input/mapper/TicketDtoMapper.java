@@ -1,7 +1,7 @@
 package com.sasa.ticket_service.adapter.input.mapper;
 
-import com.sasa.ticket_service.domain.dto.ticket.TicketPurchaseRequestDto;
-import com.sasa.ticket_service.domain.dto.ticket.TicketResponseDto;
+import com.sasa.ticket_service.adapter.input.dto.request.TicketPurchaseRequestDto;
+import com.sasa.ticket_service.adapter.input.dto.response.TicketResponseDto;
 import com.sasa.ticket_service.domain.model.Ticket;
 import com.sasa.ticket_service.domain.model.TicketStatus;
 

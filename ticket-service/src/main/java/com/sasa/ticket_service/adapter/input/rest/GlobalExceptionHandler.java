@@ -1,7 +1,7 @@
 package com.sasa.ticket_service.adapter.input.rest;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.sasa.ticket_service.domain.dto.common.ApiResponseDto;
+import com.sasa.ticket_service.adapter.input.dto.response.ApiResponseDto;
 import com.sasa.ticket_service.domain.exception.TicketNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.sasa.event_service.adapter.input.rest;
 
-import com.sasa.event_service.domain.dto.common.ApiResponseDto;
+import com.sasa.event_service.adapter.input.dto.response.ApiResponseDto;
 import com.sasa.event_service.domain.exception.EventNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

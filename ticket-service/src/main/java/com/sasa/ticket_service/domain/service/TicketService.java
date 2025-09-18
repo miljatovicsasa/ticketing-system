@@ -1,13 +1,10 @@
 package com.sasa.ticket_service.domain.service;
 
-import com.sasa.ticket_service.domain.exception.TicketNotFoundException;
 import com.sasa.ticket_service.domain.model.Ticket;
 import com.sasa.ticket_service.domain.model.TicketStatus;
-import com.sasa.ticket_service.domain.port.input.CancellTicketUseCase;
-import com.sasa.ticket_service.domain.port.input.GetAllTicketsUseCase;
-import com.sasa.ticket_service.domain.port.input.PurchaseTicketUseCase;
-import com.sasa.ticket_service.domain.port.output.EventServicePort;
-import com.sasa.ticket_service.domain.port.output.TicketRepositoryPort;
+import com.sasa.ticket_service.port.input.TicketUseCasePort;
+import com.sasa.ticket_service.port.output.EventServicePort;
+import com.sasa.ticket_service.port.output.TicketRepositoryPort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
-public class TicketService implements PurchaseTicketUseCase, GetAllTicketsUseCase, CancellTicketUseCase {
+public class TicketService implements TicketUseCasePort {
 
     private final TicketRepositoryPort ticketRepositoryPort;
     private final EventServicePort eventServicePort;

@@ -5,12 +5,11 @@ import com.sasa.ticket_service.adapter.output.mapper.TicketEntityMapper;
 import com.sasa.ticket_service.adapter.output.repository.JpaTicketRepository;
 import com.sasa.ticket_service.domain.exception.TicketNotFoundException;
 import com.sasa.ticket_service.domain.model.Ticket;
-import com.sasa.ticket_service.domain.port.output.TicketRepositoryPort;
+import com.sasa.ticket_service.port.output.TicketRepositoryPort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository

@@ -79,6 +79,14 @@ public class Event {
         }
     }
 
+    public void rollbackPurchase(int quantity) {
+        cancel(quantity);
+    }
+
+    public void rollbackCancel(int quantity) {
+        purchase(quantity);
+    }
+
     public void checkAndClose(LocalDateTime now) {
         if (dateTime.isBefore(now)) {
             this.status = EventStatus.FINISHED;

@@ -1,7 +1,7 @@
 package com.sasa.event_service.adapter.input.mapper;
 
-import com.sasa.event_service.domain.dto.EventCreateRequestDto;
-import com.sasa.event_service.domain.dto.EventResponseDto;
+import com.sasa.event_service.adapter.input.dto.request.EventCreateRequestDto;
+import com.sasa.event_service.adapter.input.dto.response.EventResponseDto;
 import com.sasa.event_service.domain.model.Event;
 
 public class EventDtoMapper {

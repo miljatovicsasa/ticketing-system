@@ -1,10 +1,8 @@
 package com.sasa.ticket_service.adapter.output;
 
-import com.sasa.ticket_service.domain.dto.common.ApiResponseDto;
-import com.sasa.ticket_service.domain.dto.event.EventPurchaseAndCancelRequestDto;
-import com.sasa.ticket_service.domain.port.output.EventServicePort;
+import com.sasa.ticket_service.adapter.input.dto.request.EventPurchaseAndCancelRequestDto;
+import com.sasa.ticket_service.port.output.EventServicePort;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 

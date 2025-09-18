@@ -6,7 +6,7 @@ import com.sasa.event_service.adapter.output.repository.JpaEventRepository;
 import com.sasa.event_service.domain.exception.EventNotFoundException;
 import com.sasa.event_service.domain.model.Event;
 import com.sasa.event_service.domain.model.EventStatus;
-import com.sasa.event_service.domain.port.output.EventRepositoryPort;
+import com.sasa.event_service.port.output.EventRepositoryPort;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
