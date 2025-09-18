@@ -47,7 +47,7 @@ services:
           connections:
             local:
               properties:
-                bootstrap.servers: "kafka:9092"
+                bootstrap.servers: ${KAFKA_ADVERTISED_HOST}:${KAFKA_PORT}
     depends_on:
       - kafka
     networks:

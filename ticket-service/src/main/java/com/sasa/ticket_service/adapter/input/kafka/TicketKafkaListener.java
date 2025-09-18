@@ -17,7 +17,7 @@ public class TicketKafkaListener {
         this.ticketUseCasePort = ticketUseCasePort;
     }
 
-    @KafkaListener(topics = "${kafka.ticket.topic}", groupId = "${kafka.ticket.group-id}")
+    @KafkaListener(topics = "${kafka.ticket.topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void listen(String message) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
