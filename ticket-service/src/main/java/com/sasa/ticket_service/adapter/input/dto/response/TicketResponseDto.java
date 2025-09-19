@@ -1,11 +1,9 @@
 package com.sasa.ticket_service.adapter.input.dto.response;
 
-import java.util.UUID;
-
 public record TicketResponseDto(
-        UUID id,
-        UUID eventId,
-        UUID userId,
+        Long id,
+        Long eventId,
+        Long userId,
         int quantity,
         String status
 ) { }

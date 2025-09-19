@@ -1,13 +1,14 @@
 package com.sasa.ticket_service.adapter.output;
 
+import com.sasa.ticket_service.adapter.input.security.principal.AuthPrincipal;
 import com.sasa.ticket_service.adapter.input.dto.request.EventPurchaseAndCancelRequestDto;
 import com.sasa.ticket_service.port.output.EventServicePort;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
 @Component
@@ -35,9 +36,10 @@ public class EventServiceWebClientAdapter implements EventServicePort {
     }
 
     @Override
-    public boolean eventCheckAndReserve(UUID eventId, int quantity) {
+    public boolean eventCheckAndReserve(Long eventId, int quantity, AuthPrincipal principal) {
         return callWebClient(() -> webClient.post()
                 .uri(purchaseTicketEndpoint)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + principal.token())
                 .bodyValue(new EventPurchaseAndCancelRequestDto(eventId, quantity))
                 .retrieve()
                 .bodyToMono(Boolean.class)
@@ -45,9 +47,10 @@ public class EventServiceWebClientAdapter implements EventServicePort {
     }
 
     @Override
-    public boolean eventCancel(UUID eventId, int quantity) {
+    public boolean eventCancel(Long eventId, int quantity, AuthPrincipal principal) {
         return callWebClient(() -> webClient.post()
                 .uri(cancelTicketEndpoint)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + principal.token())
                 .bodyValue(new EventPurchaseAndCancelRequestDto(eventId, quantity))
                 .retrieve()
                 .bodyToMono(Boolean.class)
@@ -55,9 +58,10 @@ public class EventServiceWebClientAdapter implements EventServicePort {
     }
 
     @Override
-    public void rollbackReservation(UUID eventId, int quantity) {
+    public void rollbackReservation(Long eventId, int quantity, AuthPrincipal principal) {
         callWebClientVoid(() -> webClient.post()
                 .uri(rollbackPurchaseTicketEndpoint)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + principal.token())
                 .bodyValue(new EventPurchaseAndCancelRequestDto(eventId, quantity))
                 .retrieve()
                 .toBodilessEntity()
@@ -65,9 +69,10 @@ public class EventServiceWebClientAdapter implements EventServicePort {
     }
 
     @Override
-    public void rollbackCancellation(UUID eventId, int quantity) {
+    public void rollbackCancellation(Long eventId, int quantity, AuthPrincipal principal) {
         callWebClientVoid(() -> webClient.post()
                 .uri(rollbackCancelTicketEndpoint)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + principal.token())
                 .bodyValue(new EventPurchaseAndCancelRequestDto(eventId, quantity))
                 .retrieve()
                 .toBodilessEntity()

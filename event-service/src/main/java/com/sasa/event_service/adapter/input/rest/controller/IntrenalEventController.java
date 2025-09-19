@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/internal/events")
+@RequestMapping("/api/events/internal")
 public class IntrenalEventController {
 
     private final EventUseCasePort eventUseCasePort;

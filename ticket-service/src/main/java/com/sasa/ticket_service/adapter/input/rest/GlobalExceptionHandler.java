@@ -3,6 +3,7 @@ package com.sasa.ticket_service.adapter.input.rest;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.sasa.ticket_service.adapter.input.dto.response.ApiResponseDto;
 import com.sasa.ticket_service.domain.exception.TicketNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import jakarta.persistence.PersistenceException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import javax.naming.AuthenticationException;
+import java.nio.file.AccessDeniedException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponseDto<String>> handleAuthenticationException(AuthenticationException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ApiResponseDto<>(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponseDto<String>> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiResponseDto<>(HttpStatus.FORBIDDEN.value(), ex.getMessage(), null));
+    }
 
     @ExceptionHandler(TicketNotFoundException.class)
     public ResponseEntity<ApiResponseDto<Void>> handleTicketNotFound(TicketNotFoundException ex) {

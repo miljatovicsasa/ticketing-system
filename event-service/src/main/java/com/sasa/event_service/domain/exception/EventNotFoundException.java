@@ -1,10 +1,9 @@
 package com.sasa.event_service.domain.exception;
 
-import java.util.UUID;
 
 public class EventNotFoundException extends RuntimeException {
 
-    public EventNotFoundException(UUID eventId) {
+    public EventNotFoundException(Long eventId) {
         super("Event with ID " + eventId + " not found.");
     }
 

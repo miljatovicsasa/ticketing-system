@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -35,12 +34,13 @@ public class EventRepositoryAdapter implements EventRepositoryPort {
 
     @Override
     public Page<Event> listEvents(Pageable pageable) {
-        return jpaEventRepository.findAll(pageable)
+        return jpaEventRepository.findByStatus(EventStatus.ACTIVE.name(), pageable)
                 .map(EventEntityMapper::entityToDomain);
     }
 
+
     @Override
-    public Event getEvent(UUID eventId) {
+    public Event getEvent(Long eventId) {
         EventEntity event = jpaEventRepository.findById(eventId)
                 .orElseThrow(() -> new EventNotFoundException(eventId));
         return Event.fromEntity(event);

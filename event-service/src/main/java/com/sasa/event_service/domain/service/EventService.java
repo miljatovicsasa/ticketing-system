@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class EventService implements EventUseCasePort {
@@ -43,7 +42,7 @@ public class EventService implements EventUseCasePort {
 
     @Transactional
     @Override
-    public void purchaseTickets(UUID eventId, int quantity) {
+    public void purchaseTickets(Long eventId, int quantity) {
         Event event = eventRepositoryPort.getEvent(eventId);
         event.purchase(quantity);
         eventRepositoryPort.saveEvent(event);
@@ -51,7 +50,7 @@ public class EventService implements EventUseCasePort {
 
     @Transactional
     @Override
-    public void rollbackPurchaseTicket(UUID eventId, int quantity) {
+    public void rollbackPurchaseTicket(Long eventId, int quantity) {
         Event event = eventRepositoryPort.getEvent(eventId);
         event.rollbackPurchase(quantity);
         eventRepositoryPort.saveEvent(event);
@@ -59,7 +58,7 @@ public class EventService implements EventUseCasePort {
 
     @Transactional
     @Override
-    public void cancelTicket(UUID eventId, int quantity) {
+    public void cancelTicket(Long eventId, int quantity) {
         Event event = eventRepositoryPort.getEvent(eventId);
         event.cancel(quantity);
         eventRepositoryPort.saveEvent(event);
@@ -67,7 +66,7 @@ public class EventService implements EventUseCasePort {
 
     @Transactional
     @Override
-    public void rollbackCancelTicket(UUID eventId, int quantity) {
+    public void rollbackCancelTicket(Long eventId, int quantity) {
         Event event = eventRepositoryPort.getEvent(eventId);
         event.rollbackCancel(quantity);
         eventRepositoryPort.saveEvent(event);

@@ -3,10 +3,9 @@ package com.sasa.event_service.adapter.input.dto.response;
 import com.sasa.event_service.domain.model.Event;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 public record EventResponseDto(
-        UUID id,
+        Long id,
         String name,
         OffsetDateTime dateTime,
         int capacity,

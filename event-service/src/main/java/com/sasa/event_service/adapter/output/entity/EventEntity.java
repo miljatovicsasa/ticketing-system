@@ -6,14 +6,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "events", schema = "event")
 public class EventEntity {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -43,7 +43,7 @@ public class EventEntity {
 
     protected EventEntity() {}
 
-    public EventEntity(UUID id, String name, OffsetDateTime dateTime, int capacity, int remaining, int maxPerPurchase, String status) {
+    public EventEntity(Long id, String name, OffsetDateTime dateTime, int capacity, int remaining, int maxPerPurchase, String status) {
         this.id = id;
         this.name = name;
         this.dateTime = dateTime;
@@ -53,7 +53,7 @@ public class EventEntity {
         this.status = status;
     }
 
-    public UUID getId() { return id; }
+    public Long getId() { return id; }
     public String getName() { return name; }
     public OffsetDateTime getDateTime() { return dateTime; }
     public int getCapacity() { return capacity; }

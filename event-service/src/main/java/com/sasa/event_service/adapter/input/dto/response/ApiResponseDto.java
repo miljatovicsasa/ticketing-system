@@ -5,7 +5,4 @@ public record ApiResponseDto<T>(
         String message,
         T data
 ) {
-    public ApiResponseDto(int status) {
-        this(status, null, null);
-    }
 }

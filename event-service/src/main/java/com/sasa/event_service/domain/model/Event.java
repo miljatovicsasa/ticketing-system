@@ -3,10 +3,9 @@ package com.sasa.event_service.domain.model;
 import com.sasa.event_service.adapter.output.entity.EventEntity;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 public class Event {
-    private UUID id;
+    private Long id;
     private String name;
     private String description;
     private OffsetDateTime dateTime;
@@ -15,7 +14,7 @@ public class Event {
     private int maxPerPurchase;
     private EventStatus status;
 
-    public Event(UUID id, String name, OffsetDateTime dateTime, int capacity, int remaining, int maxPerPurchase, EventStatus status) {
+    public Event(Long id, String name, OffsetDateTime dateTime, int capacity, int remaining, int maxPerPurchase, EventStatus status) {
         this.id = id;
         this.name = name;
         this.dateTime = dateTime;
@@ -36,7 +35,7 @@ public class Event {
             throw new IllegalArgumentException("Max per purchase must be positive");
         }
         return new Event(
-                UUID.randomUUID(),
+                null,
                 name,
                 dateTime,
                 capacity,
@@ -166,11 +165,11 @@ public class Event {
         this.name = name;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }
