@@ -7,6 +7,8 @@ import com.sasa.ticket_service.adapter.input.security.principal.AuthPrincipal;
 import com.sasa.ticket_service.adapter.input.security.JwtAuthenticationFilter;
 import com.sasa.ticket_service.domain.model.Ticket;
 import com.sasa.ticket_service.port.input.TicketUseCasePort;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,18 +16,21 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.Set;
 
 @Component
 public class TicketKafkaListener {
 
     private final TicketUseCasePort ticketUseCasePort;
+    private final Validator validator;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final ObjectMapper objectMapper;
 
-    public TicketKafkaListener(TicketUseCasePort ticketUseCasePort,
+    public TicketKafkaListener(TicketUseCasePort ticketUseCasePort, Validator validator,
                                JwtAuthenticationFilter jwtAuthenticationFilter,
                                ObjectMapper objectMapper) {
         this.ticketUseCasePort = ticketUseCasePort;
+        this.validator = validator;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.objectMapper = objectMapper;
     }
@@ -34,6 +39,11 @@ public class TicketKafkaListener {
     public void listen(String message) {
         try {
             TicketPurchaseRequestDto requestDto = objectMapper.readValue(message, TicketPurchaseRequestDto.class);
+
+            Set<ConstraintViolation<TicketPurchaseRequestDto>> violations = validator.validate(requestDto);
+            if (!violations.isEmpty()) {
+                throw new IllegalArgumentException("Invalid Kafka message: " + violations);
+            }
 
             String token = requestDto.userToken();
             AuthPrincipal principal = jwtAuthenticationFilter.fetchPrincipalFromUserService(token);
