@@ -8,11 +8,11 @@ import java.time.OffsetDateTime;
 
 @Schema(name = "EventCreateRequest", description = "Request DTO for creating a new event")
 public record EventCreateRequestDto(
-        @Schema(description = "Name of the event", example = "Summer Festival")
+        @Schema(description = "Name of the event", example = "Esad Plavi")
         @NotNull(message = "Event name is required")
         String name,
 
-        @Schema(description = "Date and time of the event (must be in the future)", example = "2025-12-25T18:00:00+01:00")
+        @Schema(description = "Date and time of the event (must be in the future)", example = "2025-11-11T20:00:00+02:00")
         @NotNull(message = "Event dateTime is required")
         @Future(message = "Event dateTime must be in the future")
         OffsetDateTime dateTime,

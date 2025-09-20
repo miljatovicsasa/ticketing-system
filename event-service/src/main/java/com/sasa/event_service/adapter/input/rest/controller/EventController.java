@@ -35,8 +35,6 @@ public class EventController {
     })
     @PostMapping
     public ResponseEntity<ApiResponseDto<EventResponseDto>> createEvent(
-            @Parameter(name = "Authorization", description = "Bearer token", required = true, in = ParameterIn.HEADER)
-            @RequestHeader("Authorization") String authHeader,
             @RequestBody @Valid EventCreateRequestDto dto
     ) {
         Event event = Event.createNew(

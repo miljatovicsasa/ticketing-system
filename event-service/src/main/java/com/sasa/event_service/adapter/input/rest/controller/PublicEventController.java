@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @Tag(name = "Public Events", description = "Operations for fetching public events")
 @RestController
@@ -36,7 +37,7 @@ public class PublicEventController {
     })
     @GetMapping
     public ResponseEntity<ApiResponseDto<PaginatedResponseDto<EventResponseDto>>> getPublicEvents(
-            @PageableDefault(size = 20, page = 0) Pageable pageable
+            @Parameter(hidden = true)  @PageableDefault(size = 20, page = 0) Pageable pageable
     ) {
         Page<Event> eventPage = eventUseCasePort.getAllEvents(pageable);
         PaginatedResponseDto<EventResponseDto> paginatedResponse =

@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Request payload for purchasing a ticket")
 public record TicketPurchaseRequestDto(
         @NotNull(message = "eventId is required")
-        @Schema(description = "ID of the event to purchase the ticket for", example = "123")
+        @Schema(description = "ID of the event to purchase the ticket for", example = "1")
         Long eventId,
 
         @NotNull(message = "quantity is required")

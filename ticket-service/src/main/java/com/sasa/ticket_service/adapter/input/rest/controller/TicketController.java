@@ -40,7 +40,6 @@ public class TicketController {
     })
     @PostMapping
     public ResponseEntity<ApiResponseDto<TicketResponseDto>> purchaseTicket(
-            @RequestHeader("Authorization") String authHeader,
             @RequestBody @Valid TicketPurchaseRequestDto ticketPurchaseRequestDto,
             @Parameter(hidden = true) @AuthenticationPrincipal AuthPrincipal principal) {
 
@@ -62,7 +61,6 @@ public class TicketController {
     })
     @PostMapping("/cancel")
     public ResponseEntity<ApiResponseDto<TicketResponseDto>> cancelTicket(
-            @RequestHeader("Authorization") String authHeader,
             @RequestBody @Valid TicketCancelRequestDto ticketCancelRequestDto,
             @Parameter(hidden = true) @AuthenticationPrincipal AuthPrincipal principal) {
 
@@ -79,8 +77,7 @@ public class TicketController {
     })
     @GetMapping
     public ResponseEntity<ApiResponseDto<PaginatedResponseDto<TicketResponseDto>>> getTickets(
-            @RequestHeader("Authorization") String authHeader,
-            @PageableDefault(size = 20, page = 0) Pageable pageable,
+            @Parameter(hidden = true) @PageableDefault(size = 20, page = 0) Pageable pageable,
             @Parameter(hidden = true) @AuthenticationPrincipal AuthPrincipal principal) {
 
         Page<Ticket> ticketPage = ticketUseCasePort.getAllTickets(pageable, principal);
