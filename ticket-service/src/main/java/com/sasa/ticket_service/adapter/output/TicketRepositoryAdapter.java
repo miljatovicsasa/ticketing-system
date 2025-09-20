@@ -8,6 +8,7 @@ import com.sasa.ticket_service.domain.exception.TicketNotFoundException;
 import com.sasa.ticket_service.domain.model.Ticket;
 import com.sasa.ticket_service.domain.model.TicketStatus;
 import com.sasa.ticket_service.port.output.TicketRepositoryPort;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,7 @@ public class TicketRepositoryAdapter implements TicketRepositoryPort {
     }
 
     @Override
+    @Transactional
     public Ticket save(Ticket ticket) {
         TicketEntity entity = TicketEntityMapper.DomainToEntity(ticket);
         TicketEntity saved = jpaTicketRepository.save(entity);
