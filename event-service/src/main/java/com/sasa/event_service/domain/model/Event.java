@@ -53,7 +53,7 @@ public class Event {
                 entity.getCapacity(),
                 entity.getRemaining(),
                 entity.getMaxPerPurchase(),
-                EventStatus.valueOf(entity.getStatus())
+                entity.getStatus()
         );
     }
 

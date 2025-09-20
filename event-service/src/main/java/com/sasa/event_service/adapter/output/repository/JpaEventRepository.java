@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface JpaEventRepository extends JpaRepository<EventEntity, Long> {
     List<EventEntity> findByStatusIn(List<EventStatus> statuses);
-    Page<EventEntity> findByStatus(String status, Pageable pageable);
+    Page<EventEntity> findByStatus(EventStatus status, Pageable pageable);
 
 }

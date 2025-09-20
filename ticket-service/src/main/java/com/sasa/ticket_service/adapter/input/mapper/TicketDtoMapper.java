@@ -1,5 +1,6 @@
 package com.sasa.ticket_service.adapter.input.mapper;
 
+import com.sasa.ticket_service.adapter.input.dto.request.TicketPurchaseKafkaDto;
 import com.sasa.ticket_service.adapter.input.dto.request.TicketPurchaseRequestDto;
 import com.sasa.ticket_service.adapter.input.dto.response.TicketResponseDto;
 import com.sasa.ticket_service.domain.model.Ticket;
@@ -30,6 +31,17 @@ public class TicketDtoMapper {
                 ticket.getUserId(),
                 ticket.getQuantity(),
                 ticket.getStatus().name()
+        );
+    }
+
+    public static Ticket kafkaToDomain(TicketPurchaseKafkaDto dto) {
+        return new Ticket(
+                null,
+                dto.eventId(),
+                dto.quantity(),
+                TicketStatus.ACTIVE,
+                OffsetDateTime.now(),
+                null
         );
     }
 }

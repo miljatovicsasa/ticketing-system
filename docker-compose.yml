@@ -53,43 +53,43 @@ services:
     networks:
       - ticketing-net
 
-#  event-service:
-#    build: ./event-service
-#    depends_on: [ db, kafka ]
-#    ports:
-#      - "8081:${SERVER_PORT}"
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
-#      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-#      SPRING_KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_CONTAINER_NAME}:${KAFKA_PORT}
-#      EVENT_SERVER_PORT: ${EVENT_SERVER_PORT}
-#    networks: [ ticketing-net ]
-#
-#  ticket-service:
-#    build: ./ticket-service
-#    depends_on: [ db, kafka ]
-#    ports:
-#      - "8082:${SERVER_PORT}"
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
-#      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-#      SPRING_KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_CONTAINER_NAME}:${KAFKA_PORT}
-#      TICKET_SERVER_PORT: ${TICKET_SERVER_PORT}
-#    networks: [ ticketing-net ]
-#
-#  user-service:
-#    build: ./user-service
-#    depends_on: [ db ]
-#    ports:
-#      - "8083:${SERVER_PORT}"
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
-#      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-#      USER_SERVER_PORT: ${USER_SERVER_PORT}
-#    networks: [ ticketing-net ]
+  event-service:
+    build: ./event-service
+    depends_on: [ db, kafka ]
+    ports:
+      - "${EVENT_SERVER_PORT}:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_CONTAINER_NAME}:${KAFKA_PORT}
+      SERVER_PORT: 8080
+    networks: [ ticketing-net ]
+
+  ticket-service:
+    build: ./ticket-service
+    depends_on: [ db, kafka ]
+    ports:
+      - "${TICKET_SERVER_PORT}:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_CONTAINER_NAME}:${KAFKA_PORT}
+      SERVER_PORT: 8080
+    networks: [ ticketing-net ]
+
+  user-service:
+    build: ./user-service
+    depends_on: [ db ]
+    ports:
+      - "${USER_SERVER_PORT}:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SERVER_PORT: 8080
+    networks: [ ticketing-net ]
 
 networks:
   ticketing-net:

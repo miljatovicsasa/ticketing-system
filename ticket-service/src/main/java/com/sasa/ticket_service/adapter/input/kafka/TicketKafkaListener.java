@@ -1,8 +1,8 @@
 package com.sasa.ticket_service.adapter.input.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sasa.ticket_service.adapter.input.dto.request.TicketPurchaseKafkaDto;
 import com.sasa.ticket_service.adapter.input.mapper.TicketDtoMapper;
-import com.sasa.ticket_service.adapter.input.dto.request.TicketPurchaseRequestDto;
 import com.sasa.ticket_service.adapter.input.security.principal.AuthPrincipal;
 import com.sasa.ticket_service.adapter.input.security.JwtAuthenticationFilter;
 import com.sasa.ticket_service.domain.model.Ticket;
@@ -38,9 +38,9 @@ public class TicketKafkaListener {
     @KafkaListener(topics = "${kafka.ticket.topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void listen(String message) {
         try {
-            TicketPurchaseRequestDto requestDto = objectMapper.readValue(message, TicketPurchaseRequestDto.class);
+            TicketPurchaseKafkaDto requestDto = objectMapper.readValue(message, TicketPurchaseKafkaDto.class);
 
-            Set<ConstraintViolation<TicketPurchaseRequestDto>> violations = validator.validate(requestDto);
+            Set<ConstraintViolation<TicketPurchaseKafkaDto>> violations = validator.validate(requestDto);
             if (!violations.isEmpty()) {
                 throw new IllegalArgumentException("Invalid Kafka message: " + violations);
             }
@@ -51,10 +51,9 @@ public class TicketKafkaListener {
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(principal, null, Collections.emptyList());
 
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(null));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            Ticket ticket = TicketDtoMapper.requestToDomain(requestDto);
+            Ticket ticket = TicketDtoMapper.kafkaToDomain(requestDto);
             ticketUseCasePort.purchaseTicket(ticket, principal);
 
         } catch (Exception e) {

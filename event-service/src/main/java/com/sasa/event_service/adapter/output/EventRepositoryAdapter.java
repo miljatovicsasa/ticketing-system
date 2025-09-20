@@ -34,7 +34,7 @@ public class EventRepositoryAdapter implements EventRepositoryPort {
 
     @Override
     public Page<Event> listEvents(Pageable pageable) {
-        return jpaEventRepository.findByStatus(EventStatus.ACTIVE.name(), pageable)
+        return jpaEventRepository.findByStatus(EventStatus.ACTIVE, pageable)
                 .map(EventEntityMapper::entityToDomain);
     }
 

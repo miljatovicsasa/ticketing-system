@@ -30,8 +30,9 @@ public class EventEntity {
     @Column(nullable = false)
     private int maxPerPurchase;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private EventStatus status;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -43,7 +44,7 @@ public class EventEntity {
 
     protected EventEntity() {}
 
-    public EventEntity(Long id, String name, OffsetDateTime dateTime, int capacity, int remaining, int maxPerPurchase, String status) {
+    public EventEntity(Long id, String name, OffsetDateTime dateTime, int capacity, int remaining, int maxPerPurchase, EventStatus status) {
         this.id = id;
         this.name = name;
         this.dateTime = dateTime;
@@ -59,8 +60,6 @@ public class EventEntity {
     public int getCapacity() { return capacity; }
     public int getRemaining() { return remaining; }
     public int getMaxPerPurchase() { return maxPerPurchase; }
-    public String getStatus() { return status; }
+    public EventStatus getStatus() { return status; }
 
-    public void setRemaining(int remaining) { this.remaining = remaining; }
-    public void setStatus(String status) { this.status = status; }
 }

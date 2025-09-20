@@ -3,6 +3,7 @@ package com.sasa.event_service.adapter.output.mapper;
 
 import com.sasa.event_service.adapter.output.entity.EventEntity;
 import com.sasa.event_service.domain.model.Event;
+import com.sasa.event_service.domain.model.EventStatus;
 
 public class EventEntityMapper {
 
@@ -16,7 +17,7 @@ public class EventEntityMapper {
                 event.getCapacity(),
                 event.getRemaining(),
                 event.getMaxPerPurchase(),
-                event.getStatus().name()
+                event.getStatus()
         );
     }
 
