@@ -3,11 +3,12 @@ package com.sasa.event_service.adapter.input.rest.controller;
 import com.sasa.event_service.adapter.input.dto.request.CancellTicketRequestDto;
 import com.sasa.event_service.adapter.input.dto.request.PurchaseTicketRequestDto;
 import com.sasa.event_service.port.input.EventUseCasePort;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@Hidden
 @RestController
 @RequestMapping("/api/events/internal")
 public class IntrenalEventController {
